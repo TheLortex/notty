@@ -56,12 +56,12 @@ module Private = struct
     let lines =
       try Sys.getenv "NOTTY_LINES" |> int_of_string with
       | Failure _
-      | Not_found -> 25
+      | Not_found -> 40
 
     let cols =
       try Sys.getenv "NOTTY_COLUMNS" |> int_of_string with
       | Failure _
-      | Not_found -> 81
+      | Not_found -> 160
 
     let output_image_size ?cap ?fd f =
       output ?cap ?fd @@ fun buf cap fd ->
