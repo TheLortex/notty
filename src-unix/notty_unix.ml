@@ -53,10 +53,20 @@ module Private = struct
       let buf = Lazy.force scratch in
       Buffer.reset buf; f buf cap fd; O.write fd buf
 
+    let lines =
+      try Sys.getenv "NOTTY_LINES" |> int_of_string with
+      | Failure _
+      | Not_found -> 24
+
+    let cols =
+      try Sys.getenv "NOTTY_COLUMNS" |> int_of_string with
+      | Failure _
+      | Not_found -> 80
+
     let output_image_size ?cap ?fd f =
       output ?cap ?fd @@ fun buf cap fd ->
         let size = winsize (O.to_fd fd) in
-        let i = f (value (80, 24) size) in
+        let i = f (value (cols, lines) size) in
         let dim = match size with
           | Some (w, _) -> I.(w, height i)
           | None        -> I.(width i, height i) in
