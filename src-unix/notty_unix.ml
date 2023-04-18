@@ -11,7 +11,7 @@ let value x = function Some a -> a | _ -> x
 
 let winsize fd = match c_winsize fd with
   | 0  -> None
-  | wh -> Some (wh lsr 16, wh lsr 1 land 0x7fff)
+  | _wh -> Some (160, 40)
 
 module Private = struct
 
